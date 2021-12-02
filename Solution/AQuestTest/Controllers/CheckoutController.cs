@@ -81,8 +81,8 @@ namespace AQuestTest.Controllers
                     //it is returned by the create function call of the payment class
                     // Creating a payment
                     // baseURL is the url on which paypal sendsback the data.
-                    string baseURI = Request.Url.Scheme + "://" + Request.Url.Authority +
-                    $"/AQuestTest/Checkout/PaymentWithPayPal?idOrder={idOrder}&";
+                    string url = $"{@Url.Content("~")}Checkout/PaymentWithPayPal?idOrder={idOrder}&";
+                    string baseURI = $"{Request.Url.Scheme}://{Request.Url.Authority}{url}";
                     
                     //here we are generating guid for storing the paymentID received in session
                     //which will be used in the payment execution
