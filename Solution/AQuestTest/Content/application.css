@@ -65,11 +65,6 @@ body {
         height: 16px;
     }
 
-    .cart-quantity {
-        display: flex;
-        flex-direction: column;
-    }
-
     .cart-items td > img {
         height: 50px;
         width: 50px;

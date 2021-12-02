@@ -70,7 +70,6 @@ function ApplyCouponClick() {
                             text: 'Ok',
                             btnClass: 'btn-green',
                             action: function () {
-                                debugger;
                                 
                                 $('#col-total-price').append(
                                     '<br />'+

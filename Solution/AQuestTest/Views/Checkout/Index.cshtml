@@ -120,7 +120,7 @@
                             </td>
                             <td class="cart-item">@Model.Order.Products[i].Name</td>
                             <td class="cart-price tar">@Model.Order.Products[i].Price</td>
-                            <td class="cart-action cart-quantity tac" style=" position: relative; height: 100%;">
+                            <td class="cart-action cart-quantity tac" style="min-height: 100%;">
                                 <span id=@($"span_quantity_product_{i}") class="cart-quantity-value">@Model.Order.Products[i].Quantity</span>
                             </td>
                             <td class="row-total tar" style="position: relative; height: 100%">
