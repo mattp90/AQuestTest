@@ -22,8 +22,9 @@ body {
     }
 
     form {
-        width: 50%;
-        margin:auto;
+        width: calc(100% - 100px);
+        max-width: 800px;
+        margin: auto;
     }
 
     .cart-items td > img {
@@ -37,6 +38,16 @@ body {
 
     .div-btn-continue {
         margin-top: 5px;
+    }
+
+    .div-btn-continue input{
+        margin: auto;
+        width: fit-content;
+    }
+
+    #btnPayWithPaypal {
+        float:right;
+        margin-left: 5px;
     }
 }
 @media screen and (max-width: 501px) {
@@ -76,7 +87,12 @@ body {
 
     .div-btn-continue input{
         margin: auto;
-    }    
+        min-width: calc(100vw - 20px);
+    }
+
+    #btnPayWithPaypal {
+        margin-left: 0;
+    }
 }
 
 table {
