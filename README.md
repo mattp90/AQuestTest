@@ -17,13 +17,13 @@ Gli **Stati** degli ordini sono salvati nella tabella **OrdersStates** e sono i 
 - Confermato
 - Cancellato
 
-Nella schermata del Dettaglio Ordine è possibile andare a modificare la quantità di articoli per l'ordine selezionato; tutte le operazioni di aggiunta/rimozione articoli viene effettuata tramite chiamate Ajax. 
+Nella schermata del Dettaglio Ordine è possibile andare a modificare la quantità di articoli per l'ordine selezionato; tutte le operazioni di aggiunta/rimozione articoli viene effettuata tramite chiamate Ajax che aggiornano instantaneamente le informazioni delle quantità sul database. 
 
 In questa schermata sarà poi possibile andare ad applicare un codice sconto all'ordine; i vari coupons si trovano nella tabella **Coupons** e la quantità di sconto è identificata dalla colonna **"PercentageDiscount"**; in questa colonna viene definita la quantità di percentuale di sconto che, una volta selezionata per l'ordine, andrà a scontare il prezzo totale dell'ordine.
 
 Procedendo con le operazioni, si arriva alla schermata delle informazioni per l'utente. Questa gestione è, passatemi il termine, abbastanza sbrigativa. Non vi è infatti una gestione dell'utente registrato a database e non vi è alcuna possibilità di effettuare il login nel sistema; ora, per ogni ordine effettuato e confermato, le informazioni dell'utente vengono salvate sul database. Questo comporta una possibile ridondaza delle informazioni.
 
-Una volta confermati i dati dell'utente si arriva all'ultima pagina di Checkout; in questa schermata viene proposto un riepilogo generale sia dell'ordine sia delle informazioni dell'utente. Se, infine, si procede con il pagamento si verrà allora indirizzati in ambiente PayPal Sandbox; una volta effettuato il pagamento avverrà un reindirizzamento alla pagina di Home dell'applicativo.
+Una volta confermati i dati dell'utente si arriva all'ultima pagina di Checkout; in questa schermata viene proposto un riepilogo generale sia dell'ordine sia delle informazioni dell'utente. Se, infine, si procede con il pagamento verrà effettuato un controllo sull'effettiva presenza a magazzino delle quantità selezionate e se questo controllo dà esito positivo, allora si verrà indirizzati in ambiente PayPal Sandbox; una volta effettuato il pagamento avverrà un reindirizzamento alla pagina di Home dell'applicativo.
 
 ## Info utili
 - Una volta effettuato il restore del database (possibile tramite file .bak o tramite script di insert presenti nella cartella Database) assicurarsi che il nome del database sia lo stesso impostato a **Web.Config** nella chiave di configurazione **DatabaseName**.
