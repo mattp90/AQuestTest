@@ -1,0 +1,215 @@
+﻿@model AQuestTest.Models.CheckoutModel
+
+@{
+    if (@Model.Order.OrderState == 1)
+    {
+        ViewBag.Title = "Checkout Ordine #" + @Model.Order.Id;
+    }
+    else
+    {
+        ViewBag.Title = "Riepilogo Ordine #" + @Model.Order.Id;
+    }
+}
+
+@section scripts{
+    @Scripts.Render("~/Scripts/Checkout/Index.js")
+}
+
+<div class="page-container">
+    <h3>
+        <a style="text-decoration:none" href="@Url.Action("Index", "Home")">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"></path>
+                <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"></path>
+            </svg>
+        </a>
+        - @ViewBag.Title
+    </h3>
+
+    <section>
+        @using (Html.BeginForm("CheckoutOrder", "Checkout", FormMethod.Post, new { @id = "form-checkout" }))
+        {
+            <h4 style="border-bottom: 1px solid #f0f0f0;">Riepilogo dati personali</h4>
+
+            <div>
+                @Html.HiddenFor(model => model.Order.Id)
+                <div class="user-info">
+                    @Html.DisplayFor(model => model.User.Name)
+                </div>
+                <div class="user-info">
+                    @Html.DisplayFor(model => model.User.Surname)
+                </div>
+                <div class="user-info">
+                    @Html.DisplayFor(model => model.User.Email)
+                </div>
+                <div class="user-info">
+                    @{
+                        List<SelectListItem> nations = new List<SelectListItem>();
+                        nations.Add(new SelectListItem
+                        {
+                            Text = "Italia",
+                            Value = "IT"
+                        });
+                        nations.Add(new SelectListItem
+                        {
+                            Text = "Francia",
+                            Value = "FR",
+                            Selected = true
+                        });
+                        nations.Add(new SelectListItem
+                        {
+                            Text = "Spagna",
+                            Value = "ES"
+                        });
+                    }
+
+                    @Html.DisplayFor(model => model.User.Nationality)
+                </div>
+                <div style="padding-top: 5px;">
+                    @if (Model.User.SubscribedToNewsletter)
+                    {
+                        <label>Desidero iscrivermi alla Newsletter.</label>
+                    }
+                    else
+                    {
+                        <label>Non desidero iscrivermi alla Newsletter.</label>
+                    }
+                </div>
+                <div style="padding-top: 5px;">
+                    @if (Model.User.RequestInvoice)
+                    {
+                        <label>Desidero la fattura.</label>
+                    }
+                    else
+                    {
+                        <label>Non desidero la fattura.</label>
+                    }
+                </div>
+            </div>
+            <br />
+            <h4 style="border-bottom: 1px solid #f0f0f0;">Riepilogo carrello</h4>
+
+            <table class="cart-items" style="height: 100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Prodotto</th>
+                        <th>Prezzo (€)</th>
+                        <th>Quantità</th>
+                        <th>Totale (€)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Order.Products.Count; i++)
+                    {
+
+                        <tr id="@Model.Order.Products[i].Id">
+                            <td style="display: none">
+                                @Html.HiddenFor(model => model.Order.Products[i].Id)
+                                @Html.HiddenFor(model => model.Order.Products[i].Link)
+                                @Html.HiddenFor(model => model.Order.Products[i].LinkImage)
+                                @Html.HiddenFor(model => model.Order.Products[i].Name)
+                                @Html.HiddenFor(model => model.Order.Products[i].Price)
+                                @Html.HiddenFor(model => model.Order.Products[i].Quantity)
+                                @Html.HiddenFor(model => model.Order.Products[i].Stock)
+                                @Html.HiddenFor(model => model.Order.Products[i].TotalPriceItem)
+                            </td>
+                            <td style="width: 10%">
+                                <img src="@Url.Content("~/image-not-found.png")" width="100" height="100" />
+                                @*<img src="@Model.Order.Products[i].LinkImage" width="100" height="100" />*@
+                            </td>
+                            <td class="cart-item">@Model.Order.Products[i].Name</td>
+                            <td class="cart-price tar">@Model.Order.Products[i].Price</td>
+                            <td class="cart-action cart-quantity tac" style=" position: relative; height: 100%;">
+                                <span id=@($"span_quantity_product_{i}") class="cart-quantity-value">@Model.Order.Products[i].Quantity</span>
+                            </td>
+                            <td class="row-total tar" style="position: relative; height: 100%">
+                                <div>
+                                    <span id=@($"span_total_price_product_{i}") class="cart-quantity-value">
+                                        @(@Model.Order.Products[i].Quantity * @Model.Order.Products[i].Price)
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="3">&nbsp;</td>
+                        <td style="text-align: right ">Totale: </td>
+                        <td class="cart-total tar">
+                            @if (!string.IsNullOrEmpty(@Model.Order.Coupon))
+                            {
+                                <span id="span_total_price_order" class="cart-quantity-value" style="text-decoration: line-through">
+                                    @Model.Order.TotalPriceWithoutDiscount
+                                </span>
+                                <br />
+                                <label id="span_total_price_order_discounted" class="cart-quantity-value">
+                                    @Model.Order.TotalPriceOrder
+                                </label>
+                            }
+                            else
+                            {
+                                <span id="span_total_price_order" class="cart-quantity-value">
+                                    @Model.Order.TotalPriceWithoutDiscount
+                                </span>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <br />
+
+            if (!string.IsNullOrEmpty(@Model.Order.Coupon))
+            {
+                <div style="display: flex; flex-direction: row;">
+                    <label>Coupon applicato: @Model.Order.Coupon</label>
+                </div>
+            }
+
+            if (@Model.Order.OrderState == 1)
+            {
+                <div style="display: flex; flex-direction: row;">
+                    <label>Ho letto e accetto le &nbsp;</label>
+                    <a href="@Url.Action("Index", "GeneralConditions")"
+                       target="_blank"
+                       class="button Secondary">
+                        condizioni generali di vendita
+                    </a>
+                    @Html.CheckBoxFor(model => model.GeneralConditionsReaded, new { @style = "margin-left: 2px; margin-top: 5px;" })
+                </div>
+                <div class="user-info">
+                    <div style="display: flex; justify-content: space-between;">
+                        <button id="btnBackToUserInfo" name="Back" type="submit" class="btn btn-outline-primary btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"></path>
+                            </svg>
+                            Indietro
+                        </button>
+                        <div>
+                            <button id="btnPayWithStripe" disabled name="PayWithStripe" type="submit" value="BackToCheckout" class="btn btn-outline-success btn-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-credit-card-2-back" viewBox="0 0 16 16">
+                                    <path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z"></path>
+                                    <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm13 2v5H1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm-1 9H2a1 1 0 0 1-1-1v-1h14v1a1 1 0 0 1-1 1z"></path>
+                                </svg>
+                                Paga con Stripe
+                            </button>
+                            <button id="btnPayWithPaypal" name="PayWithPaypal" type="submit" value="BackToCheckout" class="btn btn-outline-success btn-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-paypal" viewBox="0 0 16 16">
+                                    <path d="M14.06 3.713c.12-1.071-.093-1.832-.702-2.526C12.628.356 11.312 0 9.626 0H4.734a.7.7 0 0 0-.691.59L2.005 13.509a.42.42 0 0 0 .415.486h2.756l-.202 1.28a.628.628 0 0 0 .62.726H8.14c.429 0 .793-.31.862-.731l.025-.13.48-3.043.03-.164.001-.007a.351.351 0 0 1 .348-.297h.38c1.266 0 2.425-.256 3.345-.91.379-.27.712-.603.993-1.005a4.942 4.942 0 0 0 .88-2.195c.242-1.246.13-2.356-.57-3.154a2.687 2.687 0 0 0-.76-.59l-.094-.061ZM6.543 8.82a.695.695 0 0 1 .321-.079H8.3c2.82 0 5.027-1.144 5.672-4.456l.003-.016c.217.124.4.27.548.438.546.623.679 1.535.45 2.71-.272 1.397-.866 2.307-1.663 2.874-.802.57-1.842.815-3.043.815h-.38a.873.873 0 0 0-.863.734l-.03.164-.48 3.043-.024.13-.001.004a.352.352 0 0 1-.348.296H5.595a.106.106 0 0 1-.105-.123l.208-1.32.845-5.214Z"></path>
+                                </svg>
+                                Paga con Paypal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <br />
+            <div id="alert-general-contidionts-terms" class="alert alert-danger align-items-center" role="alert" style="display: none;">
+                <div>
+                    Si prega di accettare le condizioni generali di vendita.
+                </div>
+            </div>
+        }
+    </section>
+</div>

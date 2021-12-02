@@ -1,0 +1,153 @@
+html,
+body {
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@media screen and (min-width: 500px) {
+    svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    h3 a svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    button svg, a svg {
+        width: 16px;
+        height: 16px;
+
+    }
+
+    form {
+        width: 50%;
+        margin:auto;
+    }
+
+    .cart-items td > img {
+        height: 100px;
+        width: 100px;
+    }
+
+    #btnContinueToUserInfo {
+        float: right;
+    }
+
+    .div-btn-continue {
+        margin-top: 5px;
+    }
+}
+@media screen and (max-width: 501px) {
+    form {
+        width: 100%;
+    }
+
+    svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    button svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .cart-quantity {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cart-items td > img {
+        height: 50px;
+        width: 50px;
+    }
+
+    .div-btn-continue {
+        display: flex;
+        flex-direction: column;
+        padding-top: 5px
+    }
+
+    .div-btn-continue * {
+        margin-top: 5px
+    }
+
+    .div-btn-continue input{
+        margin: auto;
+    }    
+}
+
+table {
+  border-collapse: collapse;
+}
+
+table tr td,
+table thead th,
+table tfoot td {
+  /*border: 1px solid #bbb;*/
+  padding: 10px;
+}
+
+table.cart-items {
+  width: 100%;
+}
+    table.cart-items th:nth-child(1) {
+        border-left: none;
+    }
+
+    table.cart-items th {
+        border-top: none;
+        border-left: 1px solid #f0f0f0;
+        border-bottom: 1px solid #f0f0f0;
+        vertical-align: middle;
+    }   
+
+    table.cart-items td {
+        border: none;
+        border-bottom: 1px solid #f0f0f0;
+        vertical-align: top;
+    }
+
+.tac {
+  text-align: center;
+}
+
+.tar {
+  text-align: right;
+}
+
+td.cart-action span {
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+section {
+  padding: 30px 0;
+  border-top: 1px solid #f0f0f0;
+}
+
+input,
+select {
+  padding: 5px 10px;
+}
+
+button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.red-color-text {
+    color: #bb0000;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    padding-top: 5px;
+}

@@ -1,0 +1,112 @@
+﻿@model AQuestTest.Models.UserInfoModel
+
+@{
+    ViewBag.Title = "Dati Utente";
+}
+
+@section scripts{
+    @Scripts.Render("~/Scripts/UserInfo/Index.js")
+}
+
+<div class="page-container">
+    <h3>
+        <a style="text-decoration:none" href="@Url.Action("Index", "Home")">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"></path>
+                <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"></path>
+            </svg>
+        </a>
+        - @ViewBag.Title
+    </h3>
+
+    <section>
+        @using (Html.BeginForm("InsertUserInfoData", "UserInfo", FormMethod.Post, new { @id = "form-user-info", @style = "width: fit-content; margin: auto" }))
+        {
+            @Html.HiddenFor(model => model.IdOrder)
+            <div class="user-info">
+                @Html.ValidationMessageFor(model => model.Name, null, new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Nome" })
+            </div>
+            <div class="user-info">
+                @Html.ValidationMessageFor(model => model.Surname, null, new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.Surname, new { @class = "form-control", placeholder = "Cognome" })
+            </div>
+            <div class="user-info">
+                @Html.ValidationMessageFor(model => model.Email, null, new { @class = "text-danger" })
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Indirizzo e-mail" })
+            </div>
+            <div class="user-info">
+                @{
+                    List<SelectListItem> nations = new List<SelectListItem>();
+                    nations.Add(new SelectListItem
+                    {
+                        Text = "Italia",
+                        Value = "IT"
+                    });
+                    nations.Add(new SelectListItem
+                    {
+                        Text = "Francia",
+                        Value = "FR",
+                        Selected = true
+                    });
+                    nations.Add(new SelectListItem
+                    {
+                        Text = "Spagna",
+                        Value = "ES"
+                    });
+                }
+
+                @Html.DropDownListFor(model => model.Nationality, nations, "Seleziona nazione")
+            </div>
+            <div style="padding-top: 5px;">
+                <label>Iscriviti alla Newsletter</label>
+                @Html.CheckBoxFor(model => model.SubscribedToNewsletter)
+            </div>
+            <div style="padding-top: 5px;">
+                <label>Richiedi Fattura</label>
+                @Html.CheckBoxFor(model => model.RequestInvoice)
+            </div>
+            <div class="user-info">
+                @Html.TextBoxFor(model => model.Vat, new { @class = "form-control", placeholder = "Partita IVA" })
+            </div>
+            <div class="user-info">
+                @Html.TextBoxFor(model => model.TaxCode, new { @class = "form-control", placeholder = "Codice Fiscale" })
+            </div>
+            <div style="padding-top: 5px;">
+                <label>Ho letto e accetto l'</label>
+                <a href="@Url.Action("Index", "PrivacyPolicy")"
+                   target="_blank"
+                   class="button Secondary">
+                    informativa sulla privacy
+                </a>
+                @Html.CheckBoxFor(model => model.PrivacyPolicyReaded)
+            </div>
+            <div class="user-info">
+                <div style="display: flex; justify-content: space-between;">
+                    <button id="btnBackToOrderDetail" name="Back" type="submit" class="btn btn-outline-primary btn-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-square" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"></path>
+                        </svg>
+                        Indietro
+                    </button>
+                    <button name="Continue" type="submit" value="BackToCheckout" class="btn btn-outline-success btn-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag-check-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zm-.646 5.354a.5.5 0 0 0-.708-.708L7.5 10.793 6.354 9.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"></path>
+                        </svg>
+                        Procedi
+                    </button>
+                </div>
+            </div>
+            <br />
+            <div id="alert-privacy-policy" class="alert alert-danger align-items-center" role="alert" style="display: none; max-width: fit-content;">
+                @*<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
+                    <path d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z" />
+                    <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z" />
+                </svg>*@                <div>
+                    Si prega di accettare l'informativa sulla privacy prima di procedere con l'ordine.
+                </div>
+            </div>
+        }
+    </section>
+
+</div>
