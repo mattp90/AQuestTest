@@ -4,8 +4,9 @@ Technical test for AQuest
 ## Tecnologie utilizzate
 - MVC 4
 - .Net Framework 4.8
-- EntityFramework 6
 - JQuery
+- Bootstrap 4
+- EntityFramework 6
 - Microsoft SQL Server
 
 ## Descrizione
