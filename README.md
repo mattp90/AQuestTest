@@ -5,7 +5,7 @@ Technical test for AQuest
 - MVC 4
 - .Net Framework 4.8
 - JQuery
-- Bootstrap 4
+- Bootstrap 5
 - EntityFramework 6
 - Microsoft SQL Server
 
