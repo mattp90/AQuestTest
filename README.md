@@ -40,3 +40,4 @@ Una volta confermati i dati dell'utente si arriva all'ultima pagina di Checkout;
 - Gestione dei Log (NLog.dll)
 - Gestione ottimizzata delle eccezioni
 - UnitTests (nella solution è presente il progetto dedicato ma senza alcun metodo di test)
+- Reindirizzamento automatico pagine di errore (404, 400) 
